@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+    <meta name="description" content="Visualizing historic text reuse with D3.js">
+    <meta name="author" content="Douglas Duhaime">
+
+    <!-- Set Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
+
+    <title>Plagiary Poets</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Framework CSS -->
+    <link href="css/agency.css" rel="stylesheet">
+
+    <!-- Corpus Plot CSS -->
+    <link href="css/corpus.css" rel="stylesheet">
+
+    <!-- Passage Plot CSS -->
+    <link href="css/passage.css" rel="stylesheet">
+
+    <!-- Typeahead CSS -->
+    <link href="css/typeahead.css" rel="stylesheet">
+
+    <!-- Footer CSS -->
+    <link href="css/footer.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body id="page-top" class="index">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Group icon and toggle for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">Plagiary Poets</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#overview">Overview</a>
+                    </li>
+                    <li id="corpus-plot-link">
+                        <a class="page-scroll" href="#corpus-plot">Corpus View</a>
+                    </li>
+                    <li id="passage-plot-link">
+                        <a class="page-scroll" href="#passage-plot">Passage View</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#about-section">About</a>
+                    </li>
+               </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="intro-text">
+                <div class="intro-lead-in">Uncovering poems that copy poems</div>
+                <div class="intro-heading"></br></div>
+                <a href="#overview" class="page-scroll btn btn-xl">Begin</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Overview Section -->
+    <section id="overview">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Overview</h2>
+                    <h3 class="section-subheading text-muted">Welcome! This site visualizes adaptations, imitations, and other forms of text reuse in early poetry.</h3>
+                </div>
+            </div>
+            <div class="row text-center">
+              <div class="col-md-4">
+                <a class="page-scroll" href="#corpus-plot">      
+                  <span class="fa-stack fa-4x">                  
+                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                    <i class="fa fa-bar-chart fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+                <h4 class="service-heading">Corpus View</h4>
+                  <p class="text-muted">Analyze thousands of poems to find influential and imitative works.</p> 
+                </div>
+                <div class="col-md-4">
+                  <a class="page-scroll" href="#passage-plot">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                        <i class="fa fa-area-chart fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </a>
+                  <h4 class="service-heading">Passage View</h4>
+                    <p class="text-muted">Search inidividual poems for influential and imitative passages.</p> 
+                </div>
+                <div class="col-md-4">
+                  <a class="page-scroll" href="#about-section">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                        <i class="fa fa-code-fork fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </a>
+                  <h4 class="service-heading">About</h4>
+                    <p class="text-muted">Read about the algorithms used to generate the plots below.</p> 
+               </div>
+            </div>
+            </br></br></br></br>
+        </div>
+    </section>
+
+    <!-- Corpus Plot Section -->  
+    <section id="corpus-plot" class="bg-light-gray">
+      <div class="container">
+        <div id="buttonContainer" class="row text-center">
+          <p><b style="margin-right:5px;">Plotting the most</b>
+            <button type="button" class="btn btn-default" id="influential" style="margin-right:5px;">Influential</button>
+            <button type="button" class="btn btn-default" id="imitative">Imitative</button>
+            <b style="margin-left:5px">poems in the corpus</b>
+          </p>
+        </div>
+      <div id="corpusPlotContainer" class="text-center">
+        <div id="corpusPlot"></div>
+      </div>
+    </section>
+
+    <!-- Passage Plot Section -->
+    <section id="passage-plot" class="bg-light-gray">
+      <div class="container">
+        <div id="textSelectorContainer">
+          <div id="scrollable-dropdown-menu" class="text-center">
+            <span class="fa fa-search" id="search-glass"></span>
+            <input class="typeahead" type="text" 
+                placeholder="Search for a poem">
+          </div>
+        </div>
+        <div class="col-xs-12" id="passageTimeLine"></div>
+        <div class="container-fluid" id="passagePlotLegendContainer">
+          <div class="row">
+            <div id="passageLegend" class="col-sm-6 col-sm-push-6"></div> 
+            <div id="passagePlot" class="col-sm-6 col-sm-pull-6"></div>
+         </div>
+        </div>
+        
+        <div id="textContainer" class="col-xs-12">
+         <div class="textBox col-xs-6" id="textBoxLeft">
+            <h4 id="titleLeft"></h4>
+            <div class="textBox" id="textLeft"></div>
+          </div>
+          <div class="textBox col-xs-6" id="textBoxRight">
+            <h4 id="titleRight"></h4>
+            <div class="textBox" id="textRight"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+ 
+    
+    <!-- About Section -->
+    <section id="about-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">About</h2>
+                    <h3 class="section-subheading text-muted">Click the images below to learn more about the methods used above!</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-6 about-section-item">
+                    <a href="#about-sectionModal1" class="about-section-link" data-toggle="modal">
+                        <div class="about-section-hover">
+                            <div class="about-section-hover-content">
+                                <i class="fa fa-plus fa-3x"></i>
+                            </div>
+                        </div>
+                        <img src="img/about-section/books.png" class="img-responsive" alt="">
+                    </a>
+                    <div class="about-section-caption">
+                        <h4>Corpus View</h4>
+                        <p class="text-muted">Read about the analysis used to generate the corpus view</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 about-section-item">
+                    <a href="#about-sectionModal2" class="about-section-link" data-toggle="modal">
+                        <div class="about-section-hover">
+                            <div class="about-section-hover-content">
+                                <i class="fa fa-plus fa-3x"></i>
+                            </div>
+                        </div>
+                        <img src="img/about-section/illuminated-manuscript.png" class="img-responsive" alt="">
+                    </a>
+                    <div class="about-section-caption">
+                        <h4>Passage View</h4>
+                        <p class="text-muted">Read about the methods used to generate the passage view</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 about-section-item">
+                    <a href="#about-sectionModal3" class="about-section-link" data-toggle="modal">
+                        <div class="about-section-hover">
+                            <div class="about-section-hover-content">
+                                <i class="fa fa-plus fa-3x"></i>
+                            </div>
+                        </div>
+                        <img src="img/about-section/source-code.png" class="img-responsive" alt="">
+                    </a>
+                    <div class="about-section-caption">
+                        <h4>Source Code</h4>
+                        <p class="text-muted">Find links to the source code and associated dependencies</p>
+                    </div>
+                </div>
+             </div>
+           </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <span></span>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-inline social-buttons">
+                        <li><a href="https://twitter.com/douglasduhaime"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li><a href="https://github.com/duhaime"><i class="fa fa-github"></i></a>
+                        </li>
+                        <li><a href="https://www.linkedin.com/in/douglas-duhaime-b7786422"><i class="fa fa-linkedin"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-inline quicklinks">
+                        <li><a href="http://douglasduhaime.com">Douglas Duhaime, 2016</a>
+                        </li>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- About Section Modals -->
+
+    <!-- About Section Modal 1 -->
+    <div class="about-section-modal modal fade" id="about-sectionModal1" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <!-- Project Details Go Here -->
+                            <h2>Corpus View Details</h2>
+                            <p class="item-intro text-muted center">Read below to learn about the methods used to generate the corpus view.</p>
+                            <img class="img-responsive img-centered" src="img/about-section/books-full.png" alt="">
+                            <p>The corpus view visualizes the degree to which each poem within the corpus imitates earlier poems and influences later poems. To perform these measurements, the corpus is processed in the following way:<br><br>
+
+Each poem is split into a list of stanzas. For each stanza, the number of times each possible three character sequence {'aaa', 'aab', ... 'zzz'} occurs is counted. These counts are then used to perform an <a href="https://en.wikipedia.org/wiki/Nearest_neighbor_search#Approximate_nearest_neighbor">Approximate Nearest Neighbors</a> search that determines the passages that are most similar to a given passage. Each passage is then compared to its nearest neighbors using Python's <a href="https://docs.python.org/2/library/difflib.html#sequencematcher-objects">Difflib.Sequencematcher()</a> function, and these scores are used to represent passage-level similarities. Given these similarity scores, each poem's similarity to earlier and later works is then calculated as follows:<br><br>
+
+For each segment of each poem, the nearest neighbors are divided into those that were published before the given work and those that were published after the given work. The similarity scores of the nearest neighbors published before and after the given work are then summed (respectively). These summed values are then divided by the number of segments in the text, and this quotient is divided in turn by the number of nearest neighbors considered for each passage. The resultng values are then used to represent the degree to which the given work resembles earlier and later works.
+                              </p>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Description</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section Modal 2 -->
+    <div class="about-section-modal modal fade" id="about-sectionModal2" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <h2>Passage View Details</h2>
+                            <p class="item-intro text-muted center">Read below to learn about the methods used to generate the passage view.</p>
+                            <img class="img-responsive img-centered" src="img/about-section/illuminated-manuscript-full.png" alt="">
+                              <p>The passage view visualizes the passages that are most similar to each passage in the corpus. Each passage from a user-specified poem is analyzed to find its most similar passages, and each of those similar passages is visualized as a point in the plot. The similarity scores are calculated as follows:<br><br>
+
+Each poem is split into a list of stanzas. For each stanza, the number of times each possible three character sequence {'aaa', 'aab', ... 'zzz'} occurs is counted. These counts are then used to perform an <a href="https://en.wikipedia.org/wiki/Nearest_neighbor_search#Approximate_nearest_neighbor">Approximate Nearest Neighbors</a> search that determines the passages that are most similar to a given passage. Each passage is then compared to its nearest neighbors using Python's <a href="https://docs.python.org/2/library/difflib.html#sequencematcher-objects">Difflib.Sequencematcher()</a> function, and these scores are used to represent passage-level similarities.
+                            </p>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Description</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section Modal 3 -->
+    <div class="about-section-modal modal fade" id="about-sectionModal3" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <!-- Project Details Go Here -->
+                            <h2>Source Code</h2>
+                            <p class="item-intro text-muted center">Read below for links to the project's source code and associated dependencies.</p>
+                            <img class="img-responsive img-centered" src="img/about-section/source-code-full.png" alt="">
+                              <p>This site was built on <a href="http://d3js.org/">d3.js</a>, <a href="https://twitter.github.io/typeahead.js/">typeahead.js</a>, <a href="http://getbootstrap.com/">Bootstrap</a>, and the <a href="https://github.com/spotify/annoy">Annoy ANN library</a> (C++, Python). Source code is available on <a href="https://github.com/duhaime/plagiary-poets">GitHub</a>. 
+                            </p>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Description</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="js/jquery.easing.min.js"></script>
+    <script src="js/classie.js"></script>
+    <script src="js/cbpAnimatedHeader.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="js/agency.js"></script>
+
+    <!-- D3 JavaScript -->
+    <script src="js/d3.v3.min.js"></script>
+
+    <!-- WaitUntilExists JavaScript -->
+    <script src="js/waitUntilExists.js"></script>
+
+    <!-- Typeahead JavaScript -->
+    <script src="js/typeahead.bundle.js"></script> 
+    <script src="js/simpleTypeahead.js"></script>
+
+    <!-- Corpus and Passage Plot JavaScript -->
+    <script src="js/corpus.js"></script>      
+
+</body>
+</html>
