@@ -255,8 +255,6 @@ var initializePassagePlot = function() {
 
   // draw the svg
   var svg = d3.select("#passagePlot").append("svg:svg")
-    .attr("width", plotWidth + plotMargin.left + plotMargin.right)
-    .attr("height", plotHeight + plotMargin.top + plotMargin.bottom)
     .attr("id", "passagePlotSvg");
 
   // select a subregion of the svg to create a dropbox
@@ -264,8 +262,6 @@ var initializePassagePlot = function() {
     .attr("id", "graphBox")
     .attr("x", plotMargin.left)
     .attr("y", plotMargin.top)
-    .attr("height", plotHeight)
-    .attr("width", plotWidth)
     .attr("stroke", "#c4c4c4")
     .attr("stroke-width", 1)
     .attr("fill", "#ffffff");
@@ -274,8 +270,7 @@ var initializePassagePlot = function() {
   var xAxisGroup = svg.append("g")
     .attr("class","x axis")
     .attr("transform", "translate(" + plotMargin.left + 
-      "," + (plotHeight + plotMargin.top) + ")")
-    .style("font-size", fontSize);
+      "," + (plotHeight + plotMargin.top) + ")");
 
   // add a label to the x axis
   xAxisLabel = svg.append("text")
@@ -283,7 +278,6 @@ var initializePassagePlot = function() {
     .attr("text-anchor", "end")
     .attr("x", plotWidth * .8 )
     .attr("y", plotHeight + plotMargin.top + plotMargin.bottom -5)
-    .style("font-size", fontSize)
     .style("font-weight", "normal")
     .text("Passage in selected text");
         
@@ -291,8 +285,7 @@ var initializePassagePlot = function() {
   var yAxisGroup = svg.append("g")
     .attr("class", "y axis")
     .attr("transform", "translate(" + plotMargin.left +
-       "," + plotMargin.top + ")")
-    .style("font-size", fontSize);
+       "," + plotMargin.top + ")");
 
   // add a label to the y axis
   svg.append("text")
@@ -301,15 +294,12 @@ var initializePassagePlot = function() {
     .attr("y", 1)
     .attr("x", -(plotHeight + plotMargin.top) * .35) 
     .attr("dy", ".75em")
-    .style("font-size", fontSize)
     .style("font-weight", "normal")
     .attr("transform", "rotate(-90)")
     .text("Passage similarity");
 
   // append time axis SVG to DOM
-  var timelineSvg = d3.select("#passageTimeLine").append("svg:svg")
-    .attr("width", timeWidth + timeMargin.left + timeMargin.right)
-    .attr("height", timeHeight + timeMargin.top + timeMargin.bottom);
+  var timelineSvg = d3.select("#passageTimeLine").append("svg:svg");
 
   timelineSvg.append("g")
     .attr("class", "time")
@@ -319,9 +309,7 @@ var initializePassagePlot = function() {
 
   // append passage legend svg to DOM
   d3.select("#passageLegend").append("svg:svg")
-    .attr("id", "passageLegendSvg")
-    .attr("width", window.innerWidth/2)
-    .attr("height", plotHeight +plotMargin.top +plotMargin.bottom);
+    .attr("id", "passageLegendSvg");
 
   // create plot using source Id for 
   // the initial view
@@ -371,9 +359,10 @@ var updatePassagePlot = function(data) {
     .style("font-size", fontSize);
 
   d3.select("#passagePlot").select(".x.label")
-    .attr("x", plotWidth * .8 )
+    .attr("x", plotMargin.left + plotWidth*.5)
     .attr("y", plotHeight + plotMargin.top + plotMargin.bottom -5)
-    .style("font-size", fontSize);
+    .style("font-size", '"' + fontSize + '"')
+    .style("text-anchor", "middle");
 
   d3.select("#passagePlot").select(".y.axis")
     .attr("transform", "translate(" + plotMargin.left +
@@ -382,8 +371,9 @@ var updatePassagePlot = function(data) {
 
   d3.select("#passagePlot").select(".y.label")
     .attr("y", 1)
-    .attr("x", -(plotHeight + plotMargin.top) * .35)
-    .style("font-size", fontSize);
+    .attr("x", -( (plotHeight*0.5) + plotMargin.top) )
+    .style("font-size", '"' + fontSize + '"')
+    .style("text-anchor", "middle");
 
   d3.select("#passageTimeLine").select("svg")
     .attr("width", timeWidth + timeMargin.left + timeMargin.right)
@@ -393,6 +383,11 @@ var updatePassagePlot = function(data) {
     .attr("transform", "translate(" + 
         (timeMargin.left) + 
         "," + (timeMargin.top) + ")");
+
+  // append passage legend svg to DOM
+  d3.select("#passageLegend").select("svg")
+    .attr("width", window.innerWidth)
+    .attr("height", plotHeight +plotMargin.top +plotMargin.bottom);
 
 
   ///////////////////
@@ -605,7 +600,7 @@ var initializeCorpusPlot = function(selectedButton) {
 
   // use device to set axis label font size
   if (device == "mobile") {
-    var fontSize = 10;
+    var fontSize = 8;
   } else {
     var fontSize = 12.5;
   };
